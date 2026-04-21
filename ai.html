@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dad Joke Game</title>
+<style>
+    title{
+        font-family: Arial, sans-serif;
+        text-align: center;
+        font-weight: bold;
+        color : #333;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        font-weight: bold;
+        background: #06ef29;
+        padding: 20px;
+    }
+    h1 {
+        color: #333;
+    }
+    #gameBox {
+        background: rgb(248, 2, 2);
+        padding: 20px;
+        border-radius: 20px;
+        width: 400px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    button {
+        padding: 10px 15px;
+        margin-top: 10px;
+        border: black solid 1px;
+        background: #28a745;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #138cc5;
+    }
+    input {
+        padding: 10px;
+        width: 80%;
+        margin-top: 10px;
+    }
+    #result {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h1>Dad Joke Challenge</h1>
+
+<div id="gameBox">
+    <h3 id="round">Round 1 / 10</h3>
+    <p id="question">Click start to begin!</p>
+    <input type="text" id="answerInput" placeholder="Type your answer..." disabled>
+    <br>
+    <button onclick="startGame()">Start Game</button>
+    <button onclick="submitAnswer()" id="submitBtn" disabled>Submit</button>
+    <p id="result"></p>
+    <h3 id="score">You: 0 | Computer: 0</h3>
+    <a href="index.html">Back to Home</a>
+</div>
+
+<script>
+const jokes = [
+    {q: "Why don't skeletons fight each other?", a: "Because they don't have any guts"},
+    {q: "What do you call deer with no eyes?", a: "No eye deer"},
+    {q: "Why did the scarecrow win an award?", a: "Because he was outstanding in his field"},
+    {q: "Why can't you give Elsa a balloon?", a: "Because she will let it go"},
+    {q: "What do you call cheese that isn't yours?", a: "Nacho Cheese"},
+    {q: "Why do you never trust stairs?", a: "Because they are always up to something"},
+    {q: "What do you call a fish wearing a tie?", a: "so-fish-ticated"},
+    {q: "Why did the golfer bring two pairs of pants?", a: "Just in case he got a hole in one"},
+    {q: "Why did the chicken cross the road?", a: "Because it wanted to get to the other side"},
+    {q: "Why did the coffee file a police report?", a: "Because it got mugged"}
+];
+
+let currentRound = 0;
+let userScore = 0;
+let compScore = 0;
+let currentJoke;
+
+function startGame() {
+    currentRound = 0;
+    userScore = 0;
+    compScore = 0;
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("answerInput").disabled = false;
+    document.getElementById("result").textContent = "";
+    nextQuestion();
+}
+
+function nextQuestion() {
+    if (currentRound >= 10) {
+        endGame();
+        return;
+    }
+    
+    currentJoke = jokes[Math.floor(Math.random() * jokes.length)];
+    document.getElementById("question").textContent = currentJoke.q;
+    document.getElementById("answerInput").value = "";
+    document.getElementById("round").textContent = `Round ${currentRound + 1} / 10`;
+    document.getElementById("result").textContent = "";
+}
+
+function submitAnswer() {
+    const userAnswer = document.getElementById("answerInput").value.toLowerCase().trim();
+    const correctAnswer = currentJoke.a.toLowerCase();
+
+    if (userAnswer && correctAnswer.includes(userAnswer)) {
+        userScore++;
+        document.getElementById("result").textContent = "✅ Correct! You got it!";
+    } else {
+        compScore++;
+        document.getElementById("result").textContent = `❌ Wrong! The answer was: "${currentJoke.a}"`;
+    }
+
+    updateScore();
+    currentRound++;
+
+    setTimeout(nextQuestion, 2000);
+}
+
+function updateScore() {
+    document.getElementById("score").textContent = `You: ${userScore} | Computer: ${compScore}`;
+}
+
+function endGame() {
+    let message = "";
+    if (userScore > compScore) {
+        message = "🎉 You win! Dad would be proud!";
+    } else if (compScore > userScore) {
+        message = "💻 Computer wins! Better luck next time!";
+    } else {
+        message = "🤝 It's a tie!";
+    }
+
+    document.getElementById("question").textContent = "Game Over!";
+    document.getElementById("result").textContent = message;
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("answerInput").disabled = true;
+}
+</script>
+
+</body>
+</html>

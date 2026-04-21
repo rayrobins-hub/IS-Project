@@ -1,0 +1,25 @@
+.bodyTest{
+    font-weight: bold;
+    color: black;
+}
+
+body{
+    background-color: greenyellow;
+    font-family: 'Times New Roman', Times, serif;
+    border: 2px solid black;
+    font-weight: bold;
+}
+
+div{
+    background-color: white;
+    border: 10px solid black;
+    font-size: medium;
+    padding: 20px;
+    margin: 20px;
+}
+
+.tableauPlaceholder{
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
